@@ -1,9 +1,13 @@
 package babasport;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,7 +29,17 @@ public class TestSM {
 	private BbsTestMapper bbsTestMapper;
 	
 	 @Resource
-	 private BbsTestService bbsTestService;
+	private BbsTestService bbsTestService;
+	@Resource 
+	private  SolrServer solrServer; 
+	@Test
+	public void testSolrServer() throws Exception{
+		SolrInputDocument doc=new SolrInputDocument();
+		doc.addField("id", "001");
+		doc.addField("name_ik", "spring和solr整合");
+		solrServer.add(doc);
+		solrServer.commit();
+	}
 	
 	@Test
    public void testMybatis(){

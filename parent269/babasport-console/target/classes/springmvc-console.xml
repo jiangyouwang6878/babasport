@@ -27,7 +27,14 @@
 		<!-- 配置三大组件 -->
 	    <!-- 处理器映射器、适配 -->
 	    <!-- 加载类型转换器、json解析器、校验器 -->
-	    <mvc:annotation-driven/>
+	    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+	       <property name="converters">
+	         <set>
+	            <bean class="cn.itcast.babasport.utils.converter.CustomParamsConverter"/>
+	         </set>
+	       </property>
+	    </bean>
+	    <mvc:annotation-driven conversion-service="conversionService"/>
 	    
 	    <!-- 视图解析器 -->
 	    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -37,4 +44,9 @@
 	    
 	    <!-- 加载dubbo配置文件 -->
 	    <import resource="classpath:dubbo-consumer.xml"/>
+	    
+	    <!-- 配置图片上传解析器 -->
+	    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	      <property name="maxUploadSize" value="5242880"/>
+	    </bean>
 	</beans>
